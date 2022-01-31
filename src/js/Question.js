@@ -41,6 +41,7 @@ export var currSelectedQtype = 'radio'
 export function questionSec(mainParentId) {
   //Optcount = 1
   uuidget = newUuidget()
+  console.log('new question uuidget', uuidget);
   mainQuestionId = `addQuesDiv${uuidget}`
   getquestionID = `quesTxtId${mainQuestionId}`
   var formDivId = document.getElementById(`${mainParentId}`)
@@ -54,7 +55,8 @@ export function questionSec(mainParentId) {
   var moreOptsBtn = document.createTextNode(`add options`)
   var divOptionsNode = createDivNode('optionsInDiv', "",questionDivNode)
   questionDivNode.addEventListener('click', selectedQuestion)
-  addMultiOptions.addEventListener('click', function () {
+  addMultiOptions.addEventListener('click', function (e) {
+    e.preventDefault()
     quesOptions(divOptionsNode, getquestionID)
   })
   fixTextArea()
@@ -92,9 +94,17 @@ function selectedQuestion(e) {
   getQueId = ''
   return mainQuestionId
 }
+function selectedQuestionOption(e) {
+  var getQueOPtId = e.currentTarget.id
+  divOptNodeID = getQueOPtId
+  getQueOPtId = ''
+ //selectedQuestion(e)
+  return divOptNodeID
+}
 export function emptyQuestion() {
   mainQuestionId = ''
   divOptNodeID = ''
+  getquestionID =''
 
 }
 export function emptyQuestionOptions() {
@@ -112,12 +122,15 @@ function selectedQtype(e) {
 export function quesOptions(divOptionsNode, getquestionID) {
   var getquestion = document.getElementById(`${getquestionID}`)
   guid = newGuidget()
+
+  console.log('guid:', guid);
   divOptNodeID = `addOptInQNode${guid}`
-  getquestionOptionID = `quesOptionTextId${Optcount + 30}`
+  getquestionOptionID = `quesOptionTextId${divOptNodeID}`
   var divOptNode = createDivNode('addRadioInDiv', divOptNodeID,divOptionsNode)
   var optTypeRadio = inputNode('questionOptions r1', "", currSelectedQtype, "")
   var quesOptionText = inputNode(`quesOptionText r1`, getquestionOptionID, 'text', 'option text')
   // if (divOptNode) divOptionsNode.appendChild(divOptNode)
+  divOptNode.addEventListener('click',selectedQuestionOption )
   if (optTypeRadio) divOptNode.appendChild(optTypeRadio)
   if (quesOptionText) divOptNode.appendChild(quesOptionText)
   if (Optcount > 1) {
@@ -135,10 +148,6 @@ export function quesOptions(divOptionsNode, getquestionID) {
   Optcount++
   localStorage.setItem(my_optCount, Optcount);
 }
-
-
-
-
 function fixTextArea() {
   // Add active class to the current button (highlight it)
   var tx = document.getElementsByTagName('textarea');
@@ -150,7 +159,6 @@ function fixTextArea() {
     }, false);
   }
 }
-
 function delQuestion(e) {
   var getCurrQuestionId = e?.currentTarget?.id
   var getCurrQues = document.getElementById(getCurrQuestionId)
@@ -187,8 +195,6 @@ function delQuestion(e) {
     // break;
   }
 }
-
-
 function delQuestOptions(e) {
   //delete question option
   var getCurrOptBtnId = e?.currentTarget?.id//.getAttribute("id")//,value);//e?.currentTarget?.id
@@ -231,11 +237,6 @@ function delQuestOptions(e) {
     getCurrQuesOption?.remove()
   }
 }
-
-
-
-
-
 // ReCreate Question Function
 export function ReCreateQuestionNode(mainParentId, reMakQuesId, reMakQuesOptionId) {
   mainQuestionId = reMakQuesId
@@ -248,8 +249,10 @@ export function ReCreateQuestionNode(mainParentId, reMakQuesId, reMakQuesOptionI
   var moreOptsBtn = document.createTextNode(`add options`)
   var divOptionsNode = createDivNode('optionsInDiv', "",questionDivNode)
   questionDivNode.addEventListener('click', selectedQuestion)
-  addMultiOptions.addEventListener('click', function () {
-    RecreateQuestionsOptions(divOptionsNode, getquestionID, reMakQuesOptionId)
+  addMultiOptions.addEventListener('click', function (e) {
+    e.preventDefault()
+    quesOptions(divOptionsNode, getquestionID)
+   // RecreateQuestionsOptions(divOptionsNode, getquestionID, reMakQuesOptionId)
   })
   fixTextArea()
   //if (questionDivNode) formDivId.appendChild(questionDivNode)
@@ -279,7 +282,6 @@ export function ReCreateQuestionNode(mainParentId, reMakQuesId, reMakQuesOptionI
   return divOptionsNode
 
 }
-
 //ReCreate Question options func
 
 export function RecreateQuestionsOptions(divOptionsNode, getquestionID, reMakQuesOptionId) {
@@ -289,6 +291,7 @@ export function RecreateQuestionsOptions(divOptionsNode, getquestionID, reMakQue
 
   var divOptNode = createDivNode('addRadioInDiv', divOptNodeID,divOptionsNode)
 
+  divOptNode.addEventListener('click',selectedQuestionOption )
 
   var optTypeRadio = inputNode('questionOptions r1', "", currSelectedQtype, "")
 

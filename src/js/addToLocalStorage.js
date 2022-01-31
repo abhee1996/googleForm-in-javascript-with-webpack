@@ -15,13 +15,13 @@ import { mainQuestionId, divOptNodeID, getquestionID, getquestionOptionID, quesc
 
 var currEntries = JSON.parse(localStorage.getItem("allEntries"))
 
-console.log(`existingEntries in lc file`, currEntries.length)
+// console.log(`existingEntries in lc file`, currEntries.length)
 var matchQIndex;
 var matchOptionIndex;
 
 export var matchIndex = currEntries.length //0 //|| parentArr.length
 
-console.log(`matchIndex`, matchIndex)
+// console.log(`matchIndex`, matchIndex)
 export function saveAllWork() {
   localArr()
   addToLocalStorage(parentArr)
@@ -60,69 +60,84 @@ export function localArr() {
 
   var getCurrSec = document.getElementById(mainParentId)
   var child = getCurrSec?.children[0]; //get title and discription
-  var subChild = child?.children[0]?.value || child?.childNodes[0]?.value// get Title
-  var subChild1 = child?.children[1]?.value || child?.childNodes[1]?.value //get discription
+  var subChild = child?.children[0]?.value //|| child?.childNodes[0]?.value// get Title
+  var subChild1 = child?.children[1]?.value //|| child?.childNodes[1]?.value //get discription
   var child2 = getCurrSec?.children[1];
 
-  var subChild2OfId = document.getElementById(getquestionID)
-  var subChild2 = subChild2OfId?.value || ''
-  console.log(`subChild2OfId ,subChild2`, subChild2OfId, subChild2)
+  // var subChild2OfId = document.getElementById(getquestionID)
+  var getCurrentQues = document.getElementById(mainQuestionId)
+  // var subChild2 = getCurrentQues?.value || ''
+  var quesfstChild = getCurrentQues.children[0]
+  var quesfstChild2 = quesfstChild.children[0]
+  var subChild2 = quesfstChild2?.value || ''
+  // console.log(`getCurrentQues ,subChild2`, getCurrentQues, subChild2)
   var child3 = child2?.children[2]
 
-  var getsubChild3ById = document.getElementById(getquestionOptionID)  //get question options
-  var subChild3 = getsubChild3ById?.value
+  // var getsubChild3ById = document.getElementById(getquestionOptionID)  //get question options
+  // var subChild3 = getsubChild3ById?.value
+  var getCurrentOption = document.getElementById(divOptNodeID)  //get question options
+  var getgrandChild1 = getCurrentOption?.children[1]
+  var subChild3 = getgrandChild1?.value
   var i;
   var j;
   var k;
   function findSecArrIdx(each, index) {
     if(each.CurrentSecId === mainParentId){
-      console.log('each', each);
-         //i=index
-         return index
+         i=index
+         return true//[index,true]
     
     }
   }
   function findQuesArrIdx(each, index) {
     if(each.qId === mainQuestionId){
-         //j=index
-        return index
+         j=index
+        return true//[index,true]
 
     }
   }
   function findOptionArrIdx(each, index) {
     if(each.optId === divOptNodeID){
-         //k=index
-        return index
+         k=index
+        return true//[index,true]
 
     }
   }
-  i=parentArr.some(findSecArrIdx)
-  j=parentArr[i]?.questions?.some(findQuesArrIdx)
-  k=parentArr[i]?.questions[j]?.options?.some(findOptionArrIdx)
-  matchQIndex =  parentArr[i]?.questions?.length
-  matchOptionIndex = parentArr[i]?.questions[j]?.options?.length
-  if (parentArr.filter(each => { return each.CurrentSecId === mainParentId; }).length > 0) {
-  //if (parentArr.some(findSecArrIdx)) {
+  // i=parentArr.some(findSecArrIdx)
+  // j=parentArr[i]?.questions?.some(findQuesArrIdx)
+  // k=parentArr[i]?.questions[j]?.options?.some(findOptionArrIdx)
+  //if (parentArr.filter(each => { return each.CurrentSecId === mainParentId; }).length > 0) {
+  //if (parentArr.filter(findSecArrIdx).length > 0) {
+  if (parentArr.some(findSecArrIdx)) {
     //update section + add questions
     for (let i = 0; i < parentArr.length; i++) {
+      console.log("parentArr[i]:",parentArr[i])
       if (parentArr[i]?.CurrentSecId === mainParentId) {
         parentArr[i].title = subChild
         parentArr[i].discription = subChild1
-       
-        if (parentArr[i].questions.filter(each => { return each.qId === mainQuestionId; }).length > 0) {
-        //if (parentArr[i].questions.some(findQuesArrIdx)) {
+        matchQIndex =  parentArr[i]?.questions?.length
+        subChild1 = ""
+        subChild = ""
+        console.log("filter:",parentArr[i].questions.filter(each => { return each.qId === mainQuestionId; }))
+        //if (parentArr[i].questions.filter(each => { return each.qId === mainQuestionId; }).length > 0) {
+        //if (parentArr[i].questions.filter(findQuesArrIdx).length > 0) {
+        if (parentArr[i].questions.some(findQuesArrIdx)) {
           //update question and new or more add options
           for (let j = 0; j < parentArr[i].questions.length; j++) {
             if (parentArr[i].questions[j]?.qId === mainQuestionId) {
               parentArr[i].questions[j].question = subChild2
               parentArr[i].questions[j].Qtype = "MCQs"
-              if (parentArr[i].questions[j].options.filter(each => { return each.optId === divOptNodeID; }).length > 0) {
-              //if (parentArr[i].questions[j].options.some(findOptionArrIdx)) {
+              subChild2 = ""
+              matchOptionIndex = parentArr[i]?.questions[j]?.options?.length
+
+              //if (parentArr[i].questions[j].options.filter(each => { return each.optId === divOptNodeID; }).length > 0) {
+             // if (parentArr[i].questions[j].options.filter(findOptionArrIdx).length > 0) {
+              if (parentArr[i].questions[j].options.some(findOptionArrIdx)) {
                 //update existing options 
-                for (let k = 0; k <= parentArr[i].questions[j].options.length; k++) {
+                for (let k = 0; k < parentArr[i].questions[j].options.length; k++) {
                   if (parentArr[i].questions[j].options[k]?.optId === divOptNodeID) {
                     parentArr[i].questions[j].options[k].option = subChild3
                     parentArr[i].questions[j].options[k].correct = false
+                    subChild3 = ""
                   }
                }
                 emptyQuestion()
@@ -136,6 +151,7 @@ export function localArr() {
                   if (parentArr[i].questions[j].options[t].optId === divOptNodeID) {
                     parentArr[i].questions[j].options[t].option = subChild3
                     parentArr[i].questions[j].options[t].correct = false
+                    subChild3 = ""
                   }
                 }
                 matchOptionIndex = parentArr[i].questions[j].options.length
@@ -154,11 +170,13 @@ export function localArr() {
               if (parentArr[i].questions[q].qId === mainQuestionId) {
                 parentArr[i].questions[q].question = subChild2
                 parentArr[i].questions[q].Qtype = 'MCQs'
+                subChild2 = ""
                 parentArr[i].questions[q].options.push(optionsState) // if options* ofsame question if not exist
                 for (let g = 0; g < parentArr[i].questions[q].options.length; g++) {
                   if (parentArr[i].questions[q].options[g].optId === divOptNodeID) {
                     parentArr[i].questions[q].options[g].option = subChild3
                     parentArr[i].questions[q].options[g].correct = false
+                    subChild3 = ""
                   }
                 }
 
@@ -180,23 +198,29 @@ export function localArr() {
     if (parentArr[matchIndex]?.CurrentSecId === mainParentId) {
       parentArr[matchIndex].title = subChild
       parentArr[matchIndex].discription = subChild1
-      parentArr[matchIndex].questions
+      subChild1 = ""
+      subChild =""
       if (mainQuestionId !== "") {
-       // matchQIndex =  parentArr[matchIndex]?.questions?.length
-        //matchOptionIndex = parentArr[matchIndex]?.questions[matchQIndex]?.options?.length
-            parentArr[matchIndex].questions.push(quesState)
-           
-            if (parentArr[matchIndex].questions[matchQIndex]?.qId === mainQuestionId) {
-              parentArr[matchIndex].questions[matchQIndex].question = subChild2
-              parentArr[matchIndex].questions[matchQIndex].Qtype = "MCQs"
-              if (divOptNodeID !== "") {
-                parentArr[matchIndex].questions[matchQIndex].options.push(optionsState)
+        matchQIndex =  parentArr[matchIndex]?.questions?.length
+        
+        parentArr[matchIndex].questions.push(quesState)
+        
+        matchOptionIndex = parentArr[matchIndex]?.questions[matchQIndex]?.options?.length
+        // console.log("quesState:",quesState)
+        if (parentArr[matchIndex].questions[matchQIndex]?.qId === mainQuestionId) {
+          parentArr[matchIndex].questions[matchQIndex].question = subChild2
+          parentArr[matchIndex].questions[matchQIndex].Qtype = "MCQs"
+          subChild2 = ""
+          if (divOptNodeID !== "") {
+            parentArr[matchIndex].questions[matchQIndex].options.push(optionsState)
+            console.log(`parentArr:`, parentArr)
+            console.log(`matchOptionIndex:`, matchOptionIndex)
                 if (parentArr[matchIndex].questions[matchQIndex].options[matchOptionIndex]?.optId === divOptNodeID) {
                   parentArr[matchIndex].questions[matchQIndex].options[matchOptionIndex].option = subChild3
                   parentArr[matchIndex].questions[matchQIndex].options[matchOptionIndex].correct = false
+                  subChild3 =""
                   //break;
                 }
-                console.log('divOptNodeID', divOptNodeID);
                 //divOptNodeID = ""
               }
               //mainQuestionId = ""
@@ -213,9 +237,6 @@ export function localArr() {
     emptyQuestion()
     matchIndex = parentArr.length;
     matchQIndex = parentArr[matchIndex]?.questions?.length
-
-    console.log('matchIndex', matchIndex);
-    console.log('matchQIndex', matchQIndex);
   }
 
 
