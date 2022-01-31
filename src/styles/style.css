@@ -1,0 +1,113 @@
+
+/* add div */
+body{
+    background-color: #ffffff;
+}
+.addDiv{
+    border:1px solid black;
+    height:100%;
+    background-color: #ffffff;
+    padding: 20px;
+    margin: 30px;
+}
+.addSecDiv{
+    border:1px solid lightgrey;
+    height:100%;
+    background-color: #ffffff;
+    padding: 20px;
+    margin: 20px 30px 30px 30px;
+}
+.addQuesDiv{
+    border:1px solid lightgrey;
+    height:100%;
+    background-color: #ffffff;
+    padding: 20px;
+    margin: 30px;
+}
+.SecTitle,.textHeadingName{
+    border:1px solid grey;
+    height:50px;
+     width:80%;
+     font-size:30px;
+     text-decoration: none;
+     overflow:auto
+}
+.questionText{
+    height:30px;
+    width:80%;
+    margin-right:20px;
+}
+.SecDis,.textDiscription{
+    border:1px solid grey;
+    height:20px;
+     width:100%;
+}
+/* ques */
+.questionSecHeading{
+    border-bottom:1px solid grey !important;
+    height:50px;
+     width:65%;
+     font-size:28px;
+     text-decoration: none;
+     overflow-y:hidden;
+     
+     /* overflow-y:scroll !important */
+}
+.addRadioInDiv{
+    /* display: inline-block; */
+    padding: 5px 5px 5px 2px;
+    margin: 10px 10px 10px 0px;;
+}
+.mainParentFormDiv{
+    margin: 20px;
+    /* border: 1px solid grey ; */
+    /* //border-radius: 5%; */
+
+}
+.FormDivls{
+    margin: 20px;
+    /* border: 1px solid grey ; */
+    /* //border-radius: 5%; */
+}
+/* .active, .mainParentFormDiv:hover {
+    border:3px solid #673ab7;
+    color: white;
+  } */
+.mainParentFormDiv p{
+    margin: 0px !important;
+    padding-left: 30px;
+}
+textarea{
+    border: none !important;
+    border-bottom: 1px solid lightgrey  !important;
+}
+.quesOptionText {
+    border: none !important;
+    border-bottom: 1px solid lightgrey !important;
+    width: 200px;
+    margin: 10px;
+    
+    padding-top: 10px;
+    
+}
+.questxtDiv{
+    display: flex;
+    justify-content: space-around;
+}
+.questxtDiv .sel{
+    border: none !important;
+
+}
+.delSecNode{
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 50px;
+}
+.delQuesNode{
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 10px;
+}
+.delQuesOptionNode{
+    display: inline-block;
+}
