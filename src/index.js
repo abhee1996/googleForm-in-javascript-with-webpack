@@ -6,9 +6,7 @@ import {
   // parentArr,
   formDiv,
 } from '@/createForm'
-// import { createTitleDiscNode } from '@/js/TitleDiscription'
-//import { mainParentId } from '@/js/TitleDiscription'
-//import { localArr } from '@/js/saveTolocalStrg'
+
 import { saveAllWork, localArr, matchIndex, addToLocalStorage, addCountToLocalStorage } from '@/js/addToLocalStorage'
 import { questionSec, quesOptions, ReCreateQuestionNode, RecreateQuestionsOptions } from '@/js/Question'
 import {
@@ -18,7 +16,6 @@ import {
   prentHavExistingArr,
   generateUUID,
 } from '@/state'
-// Test import of styles
 import '@/styles/index.scss'
 import '@/styles/style.css'
 //import '@/'
@@ -27,16 +24,12 @@ export var body = document.querySelector('.body')
 var createSec = document.getElementById('createSec')
 createSec.addEventListener('click', function () {
 
-  //formDiv(uuid)
   createSectionNode()
 })
 let addQuestion = document.getElementById('addQuestion')
 // var addTitleAndText = document.getElementById('addTitleAndText')
 export var previewer = document.getElementById('previewer')
-export var saveWork = document.getElementById('saveWork')
-
-
-
+// export var saveWork = document.getElementById('saveWork')
 //onselect pick ids of 
 //var mainFormDivls = ""
 //var mainParentId = ""
@@ -86,34 +79,30 @@ if (existingEntries.length > 0) {
       for (var j = 0; j < existingEntries[i].questions.length; j++) {
         let reMakQuesId = existingEntries[i].questions[j].qId
         if (existingEntries[i].questions.filter(each => { return each.qId === existingEntries[i].questions[j]?.qId }).length > 0) {
-          for (var k = 0; k < existingEntries[i].questions[j].options.length; k++) {
-            var reMakQuesOptionId = existingEntries[i].questions[j].options[k].optId
-          }
-        }
-        const getdivOptionsNode = ReCreateQuestionNode(mainParentId, reMakQuesId, reMakQuesOptionId)
-        const reGenques = `#quesTxtId${reMakQuesId}`//${j + 41}`
+         // for (var k = 0; k < existingEntries[i].questions[j].options.length; k++) {
+            
+         // }
+       
+        var getdivOptionsNode = ReCreateQuestionNode(mainParentId, reMakQuesId)//, reMakQuesOptionId)
+        var reGenques = `#quesTxtId${reMakQuesId}`//${j + 41}`
         var questionTextIdAll = document.querySelector(reGenques)
         questionTextIdAll.innerText = existingEntries[i].questions[j].question
-
-        if (existingEntries[i].questions.filter(each => { return each.qId === existingEntries[i].questions[j]?.qId }).length > 0) {
+      //}
+        //if (existingEntries[i].questions.filter(each => { return each.qId === existingEntries[i].questions[j]?.qId }).length > 0) {
           for (var f = 0; f < existingEntries[i].questions[j].options.length; f++) {
-
-
-            const reGenOpt = `#quesOptionTextId${reMakQuesOptionId}`
-
+            var reMakQuesOptionId = existingEntries[i]?.questions[j]?.options[f]?.optId
             if (existingEntries[i].questions[j].options.filter(each => { return each.optId === existingEntries[i].questions[j]?.options[f]?.optId }).length > 0) {
 
-              var quesOptionTextAll = document.querySelector(reGenOpt)
-              quesOptionTextAll.value = existingEntries[i].questions[j].options[f].option
-              if (f !== existingEntries[i].questions[j].options.length - 1) {
+              
+              if (f !== existingEntries[i].questions[j].options.length ){//- 1) {
                 RecreateQuestionsOptions(getdivOptionsNode, reGenques, reMakQuesOptionId) //create mcqs options
-
+  
               }
+              const reGenOpt = `#quesOptionTextId${reMakQuesOptionId}`
+           var quesOptionTextAll = document.querySelector(reGenOpt)
+              quesOptionTextAll.value = existingEntries[i].questions[j].options[f].option
               optCnt++
             }
-
-
-
 
           }
         }
@@ -161,9 +150,9 @@ function selectedQtype(e) {
 }
 
 
-saveWork.addEventListener('click', function () {
-  saveAllWork()
-}, false)
+// saveWork.addEventListener('click', function () {
+//   saveAllWork()
+// }, false)
 
 
 

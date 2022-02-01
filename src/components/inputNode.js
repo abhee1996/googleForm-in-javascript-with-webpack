@@ -7,3 +7,9 @@ export function inputNode(cls, id ,type,placeholder){
     inputNode.setAttribute('placeholder', placeholder)
     return inputNode
 }
+export function inputNodeDef(cls,type){
+    var inputNode = document.createElement('input')
+    inputNode.setAttribute('type', type)
+    inputNode.setAttribute('class', cls)
+    return inputNode
+}

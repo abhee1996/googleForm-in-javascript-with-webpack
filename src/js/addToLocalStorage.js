@@ -60,21 +60,17 @@ export function localArr() {
 
   var getCurrSec = document.getElementById(mainParentId)
   var child = getCurrSec?.children[0]; //get title and discription
-  var subChild = child?.children[0]?.value //|| child?.childNodes[0]?.value// get Title
-  var subChild1 = child?.children[1]?.value //|| child?.childNodes[1]?.value //get discription
+  var subChild = child?.children[0]?.value // get Title
+  var subChild1 = child?.children[1]?.value //get discription
   var child2 = getCurrSec?.children[1];
 
   // var subChild2OfId = document.getElementById(getquestionID)
   var getCurrentQues = document.getElementById(mainQuestionId)
-  // var subChild2 = getCurrentQues?.value || ''
   var quesfstChild = getCurrentQues.children[0]
   var quesfstChild2 = quesfstChild.children[0]
   var subChild2 = quesfstChild2?.value || ''
-  // console.log(`getCurrentQues ,subChild2`, getCurrentQues, subChild2)
   var child3 = child2?.children[2]
 
-  // var getsubChild3ById = document.getElementById(getquestionOptionID)  //get question options
-  // var subChild3 = getsubChild3ById?.value
   var getCurrentOption = document.getElementById(divOptNodeID)  //get question options
   var getgrandChild1 = getCurrentOption?.children[1]
   var subChild3 = getgrandChild1?.value
@@ -84,27 +80,22 @@ export function localArr() {
   function findSecArrIdx(each, index) {
     if(each.CurrentSecId === mainParentId){
          i=index
-         return true//[index,true]
-    
+         return true
     }
   }
   function findQuesArrIdx(each, index) {
     if(each.qId === mainQuestionId){
          j=index
-        return true//[index,true]
-
+        return true
     }
   }
   function findOptionArrIdx(each, index) {
     if(each.optId === divOptNodeID){
          k=index
-        return true//[index,true]
-
+        return true
     }
   }
-  // i=parentArr.some(findSecArrIdx)
-  // j=parentArr[i]?.questions?.some(findQuesArrIdx)
-  // k=parentArr[i]?.questions[j]?.options?.some(findOptionArrIdx)
+
   //if (parentArr.filter(each => { return each.CurrentSecId === mainParentId; }).length > 0) {
   //if (parentArr.filter(findSecArrIdx).length > 0) {
   if (parentArr.some(findSecArrIdx)) {
@@ -117,7 +108,6 @@ export function localArr() {
         matchQIndex =  parentArr[i]?.questions?.length
         subChild1 = ""
         subChild = ""
-        console.log("filter:",parentArr[i].questions.filter(each => { return each.qId === mainQuestionId; }))
         //if (parentArr[i].questions.filter(each => { return each.qId === mainQuestionId; }).length > 0) {
         //if (parentArr[i].questions.filter(findQuesArrIdx).length > 0) {
         if (parentArr[i].questions.some(findQuesArrIdx)) {
@@ -157,7 +147,7 @@ export function localArr() {
                 matchOptionIndex = parentArr[i].questions[j].options.length
                 emptyQuestionOptions()
               }
-              // }
+             
             }
           }
           //break;
@@ -206,29 +196,24 @@ export function localArr() {
         parentArr[matchIndex].questions.push(quesState)
         
         matchOptionIndex = parentArr[matchIndex]?.questions[matchQIndex]?.options?.length
-        // console.log("quesState:",quesState)
         if (parentArr[matchIndex].questions[matchQIndex]?.qId === mainQuestionId) {
           parentArr[matchIndex].questions[matchQIndex].question = subChild2
           parentArr[matchIndex].questions[matchQIndex].Qtype = "MCQs"
           subChild2 = ""
           if (divOptNodeID !== "") {
             parentArr[matchIndex].questions[matchQIndex].options.push(optionsState)
-            console.log(`parentArr:`, parentArr)
-            console.log(`matchOptionIndex:`, matchOptionIndex)
+      
                 if (parentArr[matchIndex].questions[matchQIndex].options[matchOptionIndex]?.optId === divOptNodeID) {
                   parentArr[matchIndex].questions[matchQIndex].options[matchOptionIndex].option = subChild3
                   parentArr[matchIndex].questions[matchQIndex].options[matchOptionIndex].correct = false
                   subChild3 =""
                   //break;
                 }
-                //divOptNodeID = ""
               }
-              //mainQuestionId = ""
 
             }
 
-          //}
-        //}
+          
       }
       emptyQuestion()
       matchIndex = parentArr.length;
@@ -245,16 +230,13 @@ export function addToLocalStorage(parentArr) {
   // Parse the JSON stored in allEntriesP
   if (parentArr.lenght !== 0) {
     var existingEntries = JSON.parse(localStorage.getItem(my_ls_name));
-    //var existMainCount = JSON.parse(localStorage.getItem(my_mainCount));
     var existMainCount = JSON.parse(localStorage.getItem(my_mainCount));
     var existSecCount = JSON.parse(localStorage.getItem(my_secCount));
     var existQuesCount = JSON.parse(localStorage.getItem(my_quesCount));
     var existoptCount = JSON.parse(localStorage.getItem(my_optCount));
     console.log(`existingEntries`, existingEntries)
-    // if (existingEntries == null) existingEntries = [];
     localStorage.setItem(my_ls_name, JSON.stringify(parentArr));
-    //localStorage.setItem(my_mainCount, maincount);
-    //localStorage.setItem(matchIdxEntries, matchIndex);
+
     return
   }
 

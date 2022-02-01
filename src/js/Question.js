@@ -11,9 +11,9 @@ import {
 } from '@/state'
 var existEntries = JSON.parse(localStorage.getItem(my_ls_name));
 import { textAreaNode } from '@/components/textAreaNode'
-import { inputNode } from '@/components/inputNode'  //inputNode(cls, id ,type)
-import { createAnchorNode, createDivNode } from '@/components/createElements'
-import { createButtonNode } from '@/components/buttonNode' //createButtonNode(clas,id)
+import { inputNode ,inputNodeDef} from '@/components/inputNode'  
+import { createAnchorNode, createDivNode,createDivNodeClass } from '@/components/createElements'
+import { createButtonNode } from '@/components/buttonNode' 
 
 export var quescount = 1
 export var Optcount = 1
@@ -53,14 +53,13 @@ export function questionSec(mainParentId) {
   var addMultiOptions = createAnchorNode('addMultiOptions text-warning', `${getquestionOptionID}`, `#`)
 
   var moreOptsBtn = document.createTextNode(`add options`)
-  var divOptionsNode = createDivNode('optionsInDiv', "",questionDivNode)
+  var divOptionsNode = createDivNodeClass('optionsInDiv',questionDivNode)
   questionDivNode.addEventListener('click', selectedQuestion)
   addMultiOptions.addEventListener('click', function (e) {
     e.preventDefault()
     quesOptions(divOptionsNode, getquestionID)
   })
   fixTextArea()
-  //if (questionDivNode) formDivId.appendChild(questionDivNode)
 
   if (questionText) questxtDiv.appendChild(questionText)
   createSelectOptionNode(questxtDiv, 'sel')
@@ -68,16 +67,14 @@ export function questionSec(mainParentId) {
   if (moreOptsBtn) addMultiOptions.appendChild(moreOptsBtn)
   if (addMultiOptions) questionDivNode.appendChild(addMultiOptions)
   createMultiNode(questionDivNode, 'br')
-  //if (divOptionsNode) questionDivNode.appendChild(divOptionsNode)
   quesOptions(divOptionsNode, getquestionID) //create mcqs options
   if (quescount > 1) {
     //delete button
-    var delDivNode = createDivNode(`delQuesNode`, "",questionDivNode);
+    var delDivNode = createDivNodeClass(`delQuesNode`,questionDivNode);
     var delicon = document.createElement('i')
     delicon.setAttribute('class', `fas fa-trash-alt`)
     var delBtn = createButtonNode(` btn btn-light `, mainQuestionId)
     delBtn.addEventListener('click', delQuestion)
-    //if (delDivNode) questionDivNode.appendChild(delDivNode)
     if (delBtn) delDivNode.appendChild(delBtn)
     if (delicon) delBtn.appendChild(delicon)
   }
@@ -127,15 +124,14 @@ export function quesOptions(divOptionsNode, getquestionID) {
   divOptNodeID = `addOptInQNode${guid}`
   getquestionOptionID = `quesOptionTextId${divOptNodeID}`
   var divOptNode = createDivNode('addRadioInDiv', divOptNodeID,divOptionsNode)
-  var optTypeRadio = inputNode('questionOptions r1', "", currSelectedQtype, "")
+  var optTypeRadio = inputNodeDef('questionOptions r1', currSelectedQtype)
   var quesOptionText = inputNode(`quesOptionText r1`, getquestionOptionID, 'text', 'option text')
-  // if (divOptNode) divOptionsNode.appendChild(divOptNode)
   divOptNode.addEventListener('click',selectedQuestionOption )
   if (optTypeRadio) divOptNode.appendChild(optTypeRadio)
   if (quesOptionText) divOptNode.appendChild(quesOptionText)
   if (Optcount > 1) {
     //delete button
-    var delDivNode = createDivNode(`delQuesOptionNode`, "",divOptNode);
+    var delDivNode = createDivNodeClass(`delQuesOptionNode`,divOptNode);
     var delicon = document.createElement('i')
     delicon.setAttribute('class', `fa fa-close`)
     var delBtn = createButtonNode(` btn btn-light `, divOptNodeID)
@@ -197,7 +193,7 @@ function delQuestion(e) {
 }
 function delQuestOptions(e) {
   //delete question option
-  var getCurrOptBtnId = e?.currentTarget?.id//.getAttribute("id")//,value);//e?.currentTarget?.id
+  var getCurrOptBtnId = e?.currentTarget?.id
 
   var getCurrQuesOption = document.getElementById(getCurrOptBtnId)
 
@@ -238,7 +234,7 @@ function delQuestOptions(e) {
   }
 }
 // ReCreate Question Function
-export function ReCreateQuestionNode(mainParentId, reMakQuesId, reMakQuesOptionId) {
+export function ReCreateQuestionNode(mainParentId, reMakQuesId){
   mainQuestionId = reMakQuesId
   getquestionID = `quesTxtId${mainQuestionId}`
   var formDivId = document.getElementById(`${mainParentId}`)
@@ -247,31 +243,27 @@ export function ReCreateQuestionNode(mainParentId, reMakQuesId, reMakQuesOptionI
   var questionText = textAreaNode(`questionText`, getquestionID, 'my question is ?')
   var addMultiOptions = createAnchorNode('addMultiOptions text-warning', `${getquestionOptionID}`, `#`)
   var moreOptsBtn = document.createTextNode(`add options`)
-  var divOptionsNode = createDivNode('optionsInDiv', "",questionDivNode)
+  var divOptionsNode = createDivNodeClass('optionsInDiv',questionDivNode)
   questionDivNode.addEventListener('click', selectedQuestion)
   addMultiOptions.addEventListener('click', function (e) {
     e.preventDefault()
     quesOptions(divOptionsNode, getquestionID)
-   // RecreateQuestionsOptions(divOptionsNode, getquestionID, reMakQuesOptionId)
   })
   fixTextArea()
-  //if (questionDivNode) formDivId.appendChild(questionDivNode)
   if (questionText) questxtDiv.appendChild(questionText)
   createSelectOptionNode(questxtDiv, 'sel')
   createMultiNode(questionDivNode, 'br')
   if (moreOptsBtn) addMultiOptions.appendChild(moreOptsBtn)
   if (addMultiOptions) questionDivNode.appendChild(addMultiOptions)
   createMultiNode(questionDivNode, 'br')
-  //if (divOptionsNode) questionDivNode.appendChild(divOptionsNode)
-  RecreateQuestionsOptions(divOptionsNode, getquestionID, reMakQuesOptionId) //create mcqs options
+
   if (quescount > 0) {
     //delete button
-    var delDivNode = createDivNode(`delQuesNode`, "",questionDivNode);
+    var delDivNode = createDivNodeClass(`delQuesNode`,questionDivNode);
     var delicon = document.createElement('i')
     delicon.setAttribute('class', `fas fa-trash-alt`)
     var delBtn = createButtonNode(` btn btn-light `, mainQuestionId)
     delBtn.addEventListener('click', delQuestion)
-    //if (delDivNode) questionDivNode.appendChild(delDivNode)
     if (delBtn) delDivNode.appendChild(delBtn)
     if (delicon) delBtn.appendChild(delicon)
   }
@@ -293,22 +285,20 @@ export function RecreateQuestionsOptions(divOptionsNode, getquestionID, reMakQue
 
   divOptNode.addEventListener('click',selectedQuestionOption )
 
-  var optTypeRadio = inputNode('questionOptions r1', "", currSelectedQtype, "")
+  var optTypeRadio = inputNodeDef('questionOptions r1',currSelectedQtype)
 
   var quesOptionText = inputNode(`quesOptionText r1`, getquestionOptionID, 'text', 'option text')
 
-  //if (divOptNode) divOptionsNode.appendChild(divOptNode)
   if (optTypeRadio) divOptNode.appendChild(optTypeRadio)
   if (quesOptionText) divOptNode.appendChild(quesOptionText)
   if (Optcount > 0) {
     //delete button
-    var delDivNode = createDivNode(`delQuesOptionNode`, '',divOptNode);
+    var delDivNode = createDivNodeClass(`delQuesOptionNode`,divOptNode);
     var delicon = document.createElement('i')
     delicon.setAttribute('class', `fa fa-close`)
     var delBtn = createButtonNode(` btn btn-light `, divOptNodeID)
 
     delBtn.addEventListener('click', delQuestOptions)
-    //if (delDivNode) divOptNode.appendChild(delDivNode)
     if (delBtn) delDivNode.appendChild(delBtn)
     if (delicon) delBtn.appendChild(delicon)
   }

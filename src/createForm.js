@@ -1,12 +1,12 @@
 // import {   mainFormDivls } from '@/state'
 import { body, debounce } from '@/index'
-import { saveAllWork } from '@/js/addToLocalStorage'
+// import { saveAllWork } from '@/js/addToLocalStorage'
 import { my_ls_name, my_mainCount, my_secCount, parentArr, generateUUID } from '@/state'
 
-import { mainQuestionId, divOptNodeID, emptyQuestion } from '@/js/Question'
+// import { mainQuestionId, divOptNodeID, emptyQuestion } from '@/js/Question'
 import {textAreaNode } from '@/components/textAreaNode'
-import {createButtonNode } from '@/components/buttonNode' //createButtonNode(clas,id)
-import {createDivNode,divNodeforClas } from '@/components/createElements'
+import {createButtonNode } from '@/components/buttonNode' 
+import {createDivNode,createDivNodeClass } from '@/components/createElements'
 
 var currEntries = JSON.parse(localStorage.getItem("allEntries"))
 
@@ -18,17 +18,12 @@ export var maincount = 1
 export var secCount = 1
 
 export var secId = ''
-var uuid = "";//= generateUUID()
+var uuid = "";
 export function formDiv() {
   var FormDivls = createDivNode(`rounded-3  FormDivls`,`FormDivlsformDiv${uuid}`,body)
   var FormDivNode = createDivNode(`rounded-3 mainParentFormDiv`,`formDiv${uuid}`,FormDivls)
-  var formHrNode = document.createElement('div')// divNodeforClas("",FormDivNode)
-  //document.createElement('div')
-  //FormDivls.setAttribute('id', `FormDivlsformDiv${uuid}`)
-  //FormDivNode.setAttribute('id', `formDiv${uuid}`)
-  //FormDivNode.setAttribute('class', `rounded-3 mainParentFormDiv formDiv${uuid}`)
-  //FormDivls.setAttribute('class', `rounded-3  FormDivls`)
-  //formHrNode.setAttribute('style', `border-bottom: 1px solid lightgrey ;`)
+  var formHrNode = document.createElement('div')
+
   FormDivNode.addEventListener('click', selectedParent)
   FormDivls.addEventListener('click', selectFormDivls)
   return { FormDivls, FormDivNode , formHrNode, uuid }
@@ -43,7 +38,7 @@ export function createSectionNode() {
   // if (frmDiv) body.appendChild(frmDiv.FormDivls)
   // if (frmDiv.FormDivls) frmDiv.FormDivls.appendChild(frmDiv.FormDivNode)
    if (frmDiv.formHrNode) frmDiv.FormDivls.appendChild(frmDiv.formHrNode)
-   var divNode = createDivNode('rounded-3 addSecDiv',"",frmDiv.FormDivNode)
+   var divNode = createDivNodeClass('rounded-3 addSecDiv',frmDiv.FormDivNode)
 
   //if (divNode) frmDiv.FormDivNode.appendChild(divNode)
   //section title node
@@ -58,7 +53,7 @@ export function createSectionNode() {
 
   if (secCount >= 2) {
     //delete button
-    var delDivNode = createDivNode(`delSecNode`,"",frmDiv.FormDivls);
+    var delDivNode = createDivNodeClass(`delSecNode`,frmDiv.FormDivls);
     //delDivNode.setAttribute('class', `delSecNode`)
     var delicon = document.createElement('i')
     delicon.setAttribute('class', `fas fa-trash-alt`)
@@ -112,7 +107,6 @@ function SectionDel(e) {
   var getCurrSec = document.getElementById(getIdtoDel)
   var pikCurrSecChild = getCurrSec.children[0]
   var pikformDIvId = pikCurrSecChild.id
-  console.log('pikformDIvId', pikformDIvId);
   if (localStorage.getItem(my_ls_name) !== null) {
     var ls_data = JSON.parse(localStorage.getItem(my_ls_name));
     for (var i = 0; i < ls_data.length; i++) {
@@ -148,22 +142,15 @@ export function RecreateformDiv(reMakSecId) {
   var FormDivNode = createDivNode(`rounded-3 mainParentFormDiv ${reMakSecId}`,reMakSecId,FormDivls)
   var formHrNode = document.createElement('div')
 
-
   formHrNode.setAttribute('style', `border-bottom: 1px solid lightgrey ;`)
   FormDivNode.addEventListener('click', selectedParent)
   FormDivls.addEventListener('click', selectFormDivls)
   RecreateSectNode(FormDivls, FormDivNode, formHrNode, reMakSecId)
-
-
 }
 export function RecreateSectNode(FormDivls, FormDivNode, formHrNode, reMakSecId) {
-  var divNode = createDivNode('rounded-3 addSecDiv','',FormDivNode)
-  //divNode.setAttribute('class', 'rounded-3 addSecDiv')
+  var divNode = createDivNodeClass('rounded-3 addSecDiv',FormDivNode)
 
-  // if (FormDivls) body.appendChild(FormDivls)
-  // if (FormDivNode) FormDivls.appendChild(FormDivNode)
    if (formHrNode) FormDivls.appendChild(formHrNode)
-  // if (divNode) FormDivNode.appendChild(divNode)
   //section title node
   var SecHeading = textAreaNode(`SecTitle`,`SecTitleId${secCount}`,'Untititled Title')
 
@@ -174,8 +161,7 @@ export function RecreateSectNode(FormDivls, FormDivNode, formHrNode, reMakSecId)
   if (SecDis) divNode.appendChild(SecDis)
   if (secCount >= 2) {
     //delete button
-    var delDivNode = createDivNode(`delSecNode`,"",FormDivls);
-    //delDivNode.setAttribute('class', `delSecNode`)
+    var delDivNode = createDivNodeClass(`delSecNode`,FormDivls);
     var delicon = document.createElement('i')
     delicon.setAttribute('class', `fas fa-trash-alt`)
 
@@ -183,13 +169,11 @@ export function RecreateSectNode(FormDivls, FormDivNode, formHrNode, reMakSecId)
     
 
     delBtn.addEventListener('click', SectionDel)
-    //if (delDivNode) FormDivls.appendChild(delDivNode)
     if (delBtn) delDivNode.appendChild(delBtn)
     if (delicon) delBtn.appendChild(delicon)
 
   }
   fixTextArea()
-  //if (parentArr == null) parentArr = [];
 
   secCount++
   maincount++
